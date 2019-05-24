@@ -331,7 +331,7 @@ static CGFloat itemMargin = 5;
     if (!tzImagePickerVc.allowPreview) {
         previewWidth = 0.0;
     }
-    _previewButton.frame = CGRectMake(10, 3, previewWidth, 44);
+    _previewButton.frame = CGRectMake(30, 3, previewWidth, 44);
     _previewButton.tz_width = !tzImagePickerVc.showSelectBtn ? 0 : previewWidth;
     if (tzImagePickerVc.allowPickingOriginalPhoto) {
         CGFloat fullImageWidth = [tzImagePickerVc.fullImageBtnTitleStr boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX) options:NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]} context:nil].size.width;
@@ -339,7 +339,7 @@ static CGFloat itemMargin = 5;
         _originalPhotoLabel.frame = CGRectMake(fullImageWidth + 46, 0, 80, 50);
     }
     [_doneButton sizeToFit];
-    _doneButton.frame = CGRectMake(self.view.tz_width - _doneButton.tz_width - 12, 0, _doneButton.tz_width, 50);
+    _doneButton.frame = CGRectMake(self.view.tz_width - _doneButton.tz_width - 30, 0, _doneButton.tz_width, 50);
     _numberImageView.frame = CGRectMake(_doneButton.tz_left - 24 - 5, 13, 24, 24);
     _numberLabel.frame = _numberImageView.frame;
     _divideLine.frame = CGRectMake(0, 0, self.view.tz_width, 1);
@@ -598,7 +598,7 @@ static CGFloat itemMargin = 5;
     }
     TZAssetModel *model = _models[index];
     if (model.type == TZAssetModelMediaTypeVideo && !tzImagePickerVc.allowPickingMultipleVideo) {
-        if (tzImagePickerVc.selectedModels.count > 0) {
+        if (tzImagePickerVc.selectedModels.count > 0 && tzImagePickerVc.selectedModels[0].type != TZAssetModelMediaTypeVideo) {
             TZImagePickerController *imagePickerVc = (TZImagePickerController *)self.navigationController;
             [imagePickerVc showAlertWithTitle:[NSBundle tz_localizedStringForKey:@"Can not choose both video and photo"]];
         } else {
@@ -607,7 +607,7 @@ static CGFloat itemMargin = 5;
             [self.navigationController pushViewController:videoPlayerVc animated:YES];
         }
     } else if (model.type == TZAssetModelMediaTypePhotoGif && tzImagePickerVc.allowPickingGif && !tzImagePickerVc.allowPickingMultipleVideo) {
-        if (tzImagePickerVc.selectedModels.count > 0) {
+        if (tzImagePickerVc.selectedModels.count > 0 && tzImagePickerVc.selectedModels[0].type != TZAssetModelMediaTypePhotoGif) {
             TZImagePickerController *imagePickerVc = (TZImagePickerController *)self.navigationController;
             [imagePickerVc showAlertWithTitle:[NSBundle tz_localizedStringForKey:@"Can not choose both photo and GIF"]];
         } else {

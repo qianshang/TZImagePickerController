@@ -135,6 +135,10 @@
 }
 
 - (void)selectPhotoButtonClick:(UIButton *)sender {
+    if (!_cannotSelectLayerButton.isHidden) {
+        return;
+    }
+    
     if (self.didSelectPhotoBlock) {
         self.didSelectPhotoBlock(sender.isSelected);
     }
@@ -202,11 +206,42 @@
         self.index = [tzImagePickerVc.selectedAssetIds indexOfObject:self.model.asset.localIdentifier] + 1;
     }
     self.indexLabel.hidden = !self.selectPhotoButton.isSelected;
-    if (tzImagePickerVc.selectedModels.count >= tzImagePickerVc.maxImagesCount && tzImagePickerVc.showPhotoCannotSelectLayer && !self.model.isSelected) {
+    
+    if ([self showCannotSelectWithModel:self.model pickerController:tzImagePickerVc]) {
         self.cannotSelectLayerButton.backgroundColor = tzImagePickerVc.cannotSelectLayerColor;
         self.cannotSelectLayerButton.hidden = NO;
     } else {
         self.cannotSelectLayerButton.hidden = YES;
+    }
+}
+
+- (BOOL)showCannotSelectWithModel:(TZAssetModel *)model pickerController:(TZImagePickerController *)vc {
+    if (!vc.showPhotoCannotSelectLayer) {
+        return false;
+    }
+    if (vc.selectedModels.count == 0) {
+        return false;
+    }
+    if (vc.selectedModels.count >= vc.maxImagesCount && !self.model.isSelected) {
+        return true;
+    }
+    if (vc.allowPickingMultipleVideo) {
+        return false;
+    }
+    
+    TZAssetModel *selecteModel = vc.selectedModels[0];
+    switch (selecteModel.type) {
+        case TZAssetModelMediaTypeVideo:
+            return model.type != TZAssetModelMediaTypeVideo;
+            break;
+        case TZAssetModelMediaTypeAudio:
+            return model.type != TZAssetModelMediaTypeAudio;
+            break;
+        default:
+            return model.type == TZAssetModelMediaTypeVideo ||
+                   model.type == TZAssetModelMediaTypeAudio;
+            
+            break;
     }
 }
 
