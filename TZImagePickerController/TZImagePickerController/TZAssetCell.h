@@ -17,7 +17,7 @@ typedef enum : NSUInteger {
     TZAssetCellTypeAudio,
 } TZAssetCellType;
 
-@class TZAssetModel;
+@class TZAssetModel, TZImagePickerController;
 @interface TZAssetCell : UICollectionViewCell
 @property (weak, nonatomic) UIButton *selectPhotoButton;
 @property (weak, nonatomic) UIButton *cannotSelectLayerButton;
