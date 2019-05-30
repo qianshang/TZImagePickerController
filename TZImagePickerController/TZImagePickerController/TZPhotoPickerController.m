@@ -528,7 +528,7 @@ static CGFloat itemMargin = 5;
     cell.showSelectBtn = tzImagePickerVc.showSelectBtn;
     cell.allowPreview = tzImagePickerVc.allowPreview;
     
-    if (tzImagePickerVc.selectedModels.count >= tzImagePickerVc.maxImagesCount && tzImagePickerVc.showPhotoCannotSelectLayer && !model.isSelected) {
+    if ([cell showCannotSelectWithModel:model pickerController:tzImagePickerVc]) {
         cell.cannotSelectLayerButton.backgroundColor = tzImagePickerVc.cannotSelectLayerColor;
         cell.cannotSelectLayerButton.hidden = NO;
     } else {
